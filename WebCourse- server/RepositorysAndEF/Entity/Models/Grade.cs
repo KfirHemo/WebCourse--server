@@ -1,4 +1,4 @@
-﻿namespace WebCourse__server.Entitys.Entity
+﻿namespace WebCourse__server.RepositorysAndEF.Entity.Models
 {
     public class Grade
     {

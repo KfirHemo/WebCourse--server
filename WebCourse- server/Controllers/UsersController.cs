@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebCourse__server.Entitys;
-using WebCourse__server.Entitys.Entity;
+using WebCourse__server.RepositorysAndEF.Entity;
+using WebCourse__server.RepositorysAndEF.Entity.Models;
 
 namespace WebCourse__server.Controllers
 {

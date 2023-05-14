@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using WebCourse__server;
 using WebCourse__server.Controllers;
-using WebCourse__server.Entitys;
+using WebCourse__server.RepositorysAndEF.Entity;
 
-var context = new ServerContext();
-var userRepo = new UserRepo(context);
+//var context = new ServerContext();
+//var userRepo = new UserRepo(context);
 
 //await userRepo.AddUser("Kfir", "1234", "kfir@gmail.com", "Manager");
 //var user = userRepo.GetUser("Kfir");
@@ -26,35 +26,27 @@ var userRepo = new UserRepo(context);
 
 
 //await userRepo.AddGrade("Kfir", "Math", 100);
-
-
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers(opt => opt.AllowEmptyInputInBodyModelBinding = true);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+var connectionString = "Server= ;Database=;MultipleActiveResultSets=true; User Id =; password=";
 
-builder.Services.AddDbContext<ServerContext>(options =>
-    options.UseSqlServer());
+// SQLUser with login
 
-builder.Services.AddScoped<UsersController>();
+builder.Services.AddDbContext<ServerContext>(opt => opt.UseSqlServer(connectionString));
 
+builder.Services.AddScoped<UserRepo>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
-
+app.UseHttpsRedirection(); 
+app.UseAuthentication();
+app.MapControllers();
 app.Run();
+

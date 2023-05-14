@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using WebCourse__server.Entitys;
-using WebCourse__server.Entitys.Entity;
+using WebCourse__server.RepositorysAndEF.Entity;
+using WebCourse__server.RepositorysAndEF.Entity.Models;
+
 namespace WebCourse__server
 {
     public class UserRepo
