@@ -6,7 +6,7 @@
         public int UserId { get; set; }
         public int CourseId { get; set; }
         public double grade { get; set; }
-        public User? User { get; set; }
-        public Course? Course { get; set; }
+        public string? Discription { get; set; } 
+        public DateTime? Created { get; set; } = DateTime.Now;
     }
 }
