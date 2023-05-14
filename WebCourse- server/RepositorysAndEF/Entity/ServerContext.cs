@@ -6,6 +6,8 @@ namespace WebCourse__server.RepositorysAndEF.Entity
 {
     public class ServerContext : DbContext
     {
+        public ServerContext(DbContextOptions<ServerContext> options) : base(options) { }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Course> CoursesNew { get; set; }

@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using WebCourse__server.RepositorysAndEF.Entity;
 using WebCourse__server.RepositorysAndEF.Entity.Models;
 
@@ -27,9 +25,9 @@ namespace WebCourse__server
             await _context.SaveChangesAsync();
         }
 
-        public User GetUser(string username)
+        public async Task<User> GetUser(string username)
         {
-            var student = _context.Users.FirstOrDefault(s => s.Name == username);
+            var student = await _context.Users.FirstOrDefaultAsync(s => s.Name == username);
             if (student == null)
                 throw new Exception($"User {username} is not found");
             return student;
@@ -74,7 +72,7 @@ namespace WebCourse__server
 
         public async Task UpdateGrade(int gradeId, int newGrade)
         {
-            var grade = _context.Grades.FirstOrDefault(g => g.Id == gradeId);
+            var grade = _context.Grades.Include("").FirstOrDefault(g => g.Id == gradeId);
             if (grade == null)
                 throw new Exception($"UpdateGrade - GradeId {gradeId} is not found");
             grade.grade = newGrade;
