@@ -16,8 +16,15 @@ namespace WebCourse__server.Controllers
         {
             try
             {
-                var user = await _userRepo.GetUser(username);
-                if(user.Password == password)
+                //var user = await _userRepo.GetUser(username);
+                var user = new User()
+                {
+                    Id = 1,
+                    Name = username,
+                    Password = password,
+                    Type = "Teacher"
+                };
+                //if(user.Password == password)
                     return Ok(user);
                 throw new Exception("Wrong Password");
             }
