@@ -22,7 +22,7 @@ namespace WebCourse__server.Controllers
                     Id = 1,
                     Name = username,
                     Password = password,
-                    Type = "Teacher"
+                    Type = "Manager"
                 };
                 //if(user.Password == password)
                     return Ok(user);
