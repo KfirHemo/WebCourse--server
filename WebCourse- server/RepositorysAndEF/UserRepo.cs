@@ -74,7 +74,7 @@ namespace WebCourse__server
             {
                 UserId = user.Id,
                 CourseId = course.Id,
-                grade = _grade
+                Score = _grade
             };
             await _context.Grades.AddAsync(grade);
             await _context.SaveChangesAsync();
@@ -94,7 +94,7 @@ namespace WebCourse__server
             var grade = _context.Grades.Include("").FirstOrDefault(g => g.Id == gradeId);
             if (grade == null)
                 throw new Exception($"UpdateGrade - GradeId {gradeId} is not found");
-            grade.grade = newGrade;
+            grade.Score = newGrade;
             await _context.SaveChangesAsync();
         }
 
@@ -132,20 +132,19 @@ namespace WebCourse__server
 
         public async Task<int> AddCourse(string name)
         {
-            var course = new Course()
-            {
-                Name = name
-            };
+            var course = new Course() { Name = name };
             await _context.AddAsync(course);
             await _context.SaveChangesAsync();
             return course.Id;
         }   
-        //ToDelete all courses and teachers
+       
         public async Task<int> RemoveCourse(string name)
         {
-            var course = await _context.CoursesNew.FirstOrDefaultAsync(c => c.Name == name);
-            if (course == null)
-                throw new Exception($"RemoveCourse - Course {name} is not found");
+            var course = await GetCourse(name);
+            var usersInCoure = _context.UserInCourse.Where(s => s.CourseId == course.Id).ToList();
+            var gradesInCoure = _context.Grades.Where(s => s.CourseId == course.Id).ToList();
+            _context.UserInCourse.RemoveRange(usersInCoure);
+            _context.Grades.RemoveRange(gradesInCoure);
             _context.CoursesNew.Remove(course);
             await _context.SaveChangesAsync();
             return course.Id;
@@ -200,6 +199,51 @@ namespace WebCourse__server
             return studentsList;
         }
 
+        public async Task AddGradeToStudent(string studentName, string courseName, double grade, string discription)
+        {
+            var student = await GetUser(studentName);
+            if (student.Type?.ToLower() != "student")
+                throw new Exception($"User {studentName} is not a student!");
+            var course = await GetCourse(courseName);
+            var gradeNew = new Grade()
+            {
+                CourseId = course.Id,
+                Discription = discription,
+                Score = grade,
+                UserId = student.Id
+            };
+            await _context.AddAsync(gradeNew);
+            await _context.SaveChangesAsync();
+        }
 
+        public async Task UpdateGradeForStudent(string studentName, string courseName, double grade, string discription)
+        {
+            var student = await GetUser(studentName);
+            if (student.Type?.ToLower() != "student")
+                throw new Exception($"User {studentName} is not a student!");
+            var course = await GetCourse(courseName);
+            var gradeToUpdate = await _context.Grades.FirstOrDefaultAsync(g => 
+            g.UserId == student.Id && g.CourseId == course.Id && g.Discription == discription);
+            if (gradeToUpdate == null)
+                throw new Exception($"UpdateGradeForStudent: grade not found for student {studentName}");
+            gradeToUpdate.Score = grade;
+            await _context.SaveChangesAsync();
+
+        }
+
+        public async Task<int> RemoveGradeForStudent(string studentName, string courseName, string discription)
+        {
+            var student = await GetUser(studentName);
+            if (student.Type?.ToLower() != "student")
+                throw new Exception($"User {studentName} is not a student!");
+            var course = await GetCourse(courseName);
+            var gradeToRemove = await _context.Grades.FirstOrDefaultAsync(g =>
+            g.UserId == student.Id && g.CourseId == course.Id && g.Discription == discription);
+            if (gradeToRemove == null)
+                throw new Exception($"RemoveGradeForStudent: grade not found for student {studentName}");
+            _context.Grades.Remove(gradeToRemove);
+            await _context.SaveChangesAsync();
+            return gradeToRemove.Id;
+        }
     }
 }

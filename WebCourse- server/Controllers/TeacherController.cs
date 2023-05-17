@@ -38,5 +38,49 @@ namespace WebCourse__server.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("AddGradeForStudent")]
+        public async Task<ActionResult> AddGradeForStudent(string studentName, string courseName, double grade, string discription)
+        {
+            try
+            {
+                await _userRepo.AddGradeToStudent(studentName,courseName,grade,discription);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("UpdateGradeForStudent")]
+        public async Task<ActionResult> UpdateGradeForStudent(string studentName, string courseName, double grade, string discription)
+        {
+            try
+            {
+                await _userRepo.UpdateGradeForStudent(studentName, courseName, grade, discription);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("RemoveGradeForStudent")]
+        public async Task<ActionResult<int>> RemoveGradeForStudent(string studentName, string courseName, string discription)
+        {
+            try
+            {
+                var removedCourseId = await _userRepo.RemoveGradeForStudent(studentName, courseName, discription);
+                return Ok(removedCourseId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }
