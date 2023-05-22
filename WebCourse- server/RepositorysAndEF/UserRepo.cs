@@ -31,7 +31,7 @@ namespace WebCourse__server
         {
             var user = await _context.Users.FirstOrDefaultAsync(s => s.Name == username);
             if (user == null)
-                throw new Exception($"User {username} is not found");
+                throw new Exception("Invalid login info");
             return user;
         }
 
@@ -138,6 +138,12 @@ namespace WebCourse__server
             return course.Id;
         }   
        
+        public async Task<List<User>> GetUsers()
+        {
+            var users = await _context.Users.ToListAsync();
+            return users;
+        }
+
         public async Task<int> RemoveCourse(string name)
         {
             var course = await GetCourse(name);

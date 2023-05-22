@@ -81,8 +81,8 @@ namespace WebCourse__server.Controllers
             }
         }
 
-        [HttpDelete("RemvoeTeacherFromCourse")]
-        public async Task<ActionResult> RemvoeTeacherFromCourse(string teacherName, string courseName)
+        [HttpDelete("RemoveTeacherFromCourse")]
+        public async Task<ActionResult> RemoveTeacherFromCourse(string teacherName, string courseName)
         {
             try
             {
@@ -108,6 +108,22 @@ namespace WebCourse__server.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetUsers")]
+        public async Task<ActionResult<List<User>>> GetUsers()
+        {
+            try
+            {
+                var users = await _userRepo.GetUsers();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
         [HttpGet("GetCoursesOfTeacher")]
         public async Task<ActionResult<List<Course>>> GetCoursesOfTeacher(string teacherName)
