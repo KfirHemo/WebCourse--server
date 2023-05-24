@@ -138,9 +138,13 @@ namespace WebCourse__server
             return course.Id;
         }   
        
-        public async Task<List<User>> GetUsers()
+        public async Task<List<User>> GetUsers(string type)
         {
-            var users = await _context.Users.ToListAsync();
+            List<User> users;
+            if(type == "student" || type == "teacher")
+                users = await _context.Users.Where(t => t.Type == type).ToListAsync();
+            else
+                users = await _context.Users.ToListAsync();
             return users;
         }
 
