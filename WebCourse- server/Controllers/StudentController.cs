@@ -20,11 +20,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpGet("GetCoursesOfStudent")]
-        public async Task<ActionResult<List<Course>>> GetCoursesOfStudent(string username)
+        public async Task<ActionResult<List<Course>>> GetCoursesOfStudent(int userId)
         {
             try
             {
-                var courses = await _userRepo.GetStudentCourses(username);
+                var courses = await _userRepo.GetStudentCourses(userId);
                 return Ok(courses);
             }
             catch (Exception ex)
@@ -34,11 +34,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpGet("GetGradesOfStudentInCourse")]
-        public async Task<ActionResult<List<Grade>>> GetGradesOfStudentInCourse(string username,string courseName)
+        public async Task<ActionResult<List<Grade>>> GetGradesOfStudentInCourse(int userId,int courseId)
         {
             try
             {
-                var grades = await _userRepo.GetStudentGradesInCourse(username,courseName);
+                var grades = await _userRepo.GetStudentGradesInCourse(userId, courseId);
                 return Ok(grades);
             }
             catch (Exception ex)

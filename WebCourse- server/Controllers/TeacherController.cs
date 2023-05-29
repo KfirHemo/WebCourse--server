@@ -12,11 +12,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpGet("GetCoursesForTeacher")]
-        public async Task<ActionResult<List<Course>>> GetCoursesOfTeacher(string teacherName)
+        public async Task<ActionResult<List<Course>>> GetCoursesOfTeacher(int userId)
         {
             try
             {
-                var coursrs = await _userRepo.GetCoursesOfUser(teacherName);
+                var coursrs = await _userRepo.GetCoursesOfUser(userId);
                 return Ok(coursrs);
             }
             catch (Exception ex)
@@ -26,11 +26,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpGet("GetStudentsInCourse")]
-        public async Task<ActionResult<List<User>>> GetStudentsInCourse(string teacherName, string courseName)
+        public async Task<ActionResult<List<User>>> GetStudentsInCourse(int userId, int courseId)
         {
             try
             {
-                var students = await _userRepo.GetStudentsInCourseForTeacher(teacherName,courseName);
+                var students = await _userRepo.GetStudentsInCourseForTeacher(userId, courseId);
                 return Ok(students);
             }
             catch (Exception ex)
@@ -40,11 +40,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("AddGradeForStudent")]
-        public async Task<ActionResult> AddGradeForStudent(string studentName, string courseName, double grade, string discription)
+        public async Task<ActionResult> AddGradeForStudent(int userId, int courseId, double grade, string discription)
         {
             try
             {
-                await _userRepo.AddGradeToStudent(studentName,courseName,grade,discription);
+                await _userRepo.AddGradeToStudent(userId, courseId,grade,discription);
                 return Ok();
             }
             catch (Exception ex)
@@ -54,11 +54,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("UpdateGradeForStudent")]
-        public async Task<ActionResult> UpdateGradeForStudent(string studentName, string courseName, double grade, string discription)
+        public async Task<ActionResult> UpdateGradeForStudent(int userId, int courseId, double grade, string discription)
         {
             try
             {
-                await _userRepo.UpdateGradeForStudent(studentName, courseName, grade, discription);
+                await _userRepo.UpdateGradeForStudent(userId, courseId, grade, discription);
                 return Ok();
             }
             catch (Exception ex)
@@ -68,11 +68,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpDelete("RemoveGradeForStudent")]
-        public async Task<ActionResult<int>> RemoveGradeForStudent(string studentName, string courseName, string discription)
+        public async Task<ActionResult<int>> RemoveGradeForStudent(int userId, int courseId, string discription)
         {
             try
             {
-                var removedCourseId = await _userRepo.RemoveGradeForStudent(studentName, courseName, discription);
+                var removedCourseId = await _userRepo.RemoveGradeForStudent(userId, courseId, discription);
                 return Ok(removedCourseId);
             }
             catch (Exception ex)

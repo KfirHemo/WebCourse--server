@@ -26,12 +26,12 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpDelete("RemoveUser")]
-        public async Task<ActionResult<int>> RemoveUser(string username)
+        public async Task<ActionResult<int>> RemoveUser(int userId)
         {
             try
             {
-                var userId = await _userRepo.RemoveUser(username);
-                return Ok(userId);
+                var userIdDeleted = await _userRepo.RemoveUser(userId);
+                return Ok(userIdDeleted);
             }
             catch (Exception ex)
             {
@@ -54,12 +54,12 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpDelete("RemoveCourse")]
-        public async Task<ActionResult<int>> RemoveCourse(string courseName)
+        public async Task<ActionResult<int>> RemoveCourse(int courseId)
         {
             try
             {
-                var courseId = await _userRepo.RemoveCourse(courseName);
-                return Ok(courseId);
+                var courseIdDeleted = await _userRepo.RemoveCourse(courseId);
+                return Ok(courseIdDeleted);
             }
             catch (Exception ex)
             {
@@ -68,11 +68,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("AddCourseForTeacher")]
-        public async Task<ActionResult> AddCourseForTeacher(string teacherName, string courseName)
+        public async Task<ActionResult> AddCourseForTeacher(int userId, int courseId)
         {
             try
             {
-                await _userRepo.AddUserToCourse(teacherName, courseName);
+                await _userRepo.AddUserToCourse(userId, courseId);
                 return Ok();
             }
             catch (Exception ex)
@@ -81,12 +81,12 @@ namespace WebCourse__server.Controllers
             }
         }
 
-        [HttpDelete("RemvoeTeacherFromCourse")]
-        public async Task<ActionResult> RemvoeTeacherFromCourse(string teacherName, string courseName)
+        [HttpDelete("RemoveTeacherFromCourse")]
+        public async Task<ActionResult> RemoveTeacherFromCourse(int userId, int courseId)
         {
             try
             {
-                await _userRepo.RemoveUserFromCourse(teacherName, courseName);
+                await _userRepo.RemoveUserFromCourse(userId , courseId);
                 return Ok();
             }
             catch (Exception ex)
@@ -110,11 +110,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpGet("GetCoursesOfTeacher")]
-        public async Task<ActionResult<List<Course>>> GetCoursesOfTeacher(string teacherName)
+        public async Task<ActionResult<List<Course>>> GetCoursesOfTeacher(int userId)
         {
             try
             {
-                var coursrs = await _userRepo.GetCoursesOfUser(teacherName);
+                var coursrs = await _userRepo.GetCoursesOfUser(userId);
                 return Ok(coursrs);
             }
             catch (Exception ex)
