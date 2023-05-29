@@ -31,7 +31,7 @@ namespace WebCourse__server
         {
             var user = await _context.Users.FirstOrDefaultAsync(s => s.Name == username);
             if (user == null)
-                throw new Exception($"User {username} is not found");
+                throw new Exception("Invalid login info");
             return user;
         }
 

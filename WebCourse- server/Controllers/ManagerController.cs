@@ -109,6 +109,22 @@ namespace WebCourse__server.Controllers
             }
         }
 
+        [HttpGet("GetUsers")]
+        public async Task<ActionResult<List<User>>> GetUsers(string type = "")
+        {
+            try
+            {
+                var users = await _userRepo.GetUsers(type);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
         [HttpGet("GetCoursesOfTeacher")]
         public async Task<ActionResult<List<Course>>> GetCoursesOfTeacher(int userId)
         {
