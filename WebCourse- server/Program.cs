@@ -21,13 +21,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors(x => x
-.WithOrigins("http://localhost:3000")
+.AllowAnyOrigin()
 .AllowAnyMethod()
 .AllowAnyHeader()
-.AllowCredentials());
+);
 
-app.UseHttpsRedirection(); 
+app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
-app.Run();
 
+
+//var host = new WebHostBuilder()
+//    .UseKestrel()
+//    .UseUrls("http://172.20.10.7:7187", "https://172.20.10.7:7188")
+//    .Configure(app =>
+//    {
+//        app.Run(async context =>
+//        {
+//            await context.Response.WriteAsync("Hello from the server!");
+//        });
+//    })
+//    .Build();
+
+//host.Run();
+
+app.Run();

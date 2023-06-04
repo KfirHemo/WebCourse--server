@@ -65,11 +65,12 @@ namespace WebCourse__server
             var userToRemove = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (userToRemove == null)
                 throw new Exception($"RemoveUser user {userId} not found");
-            if(userToRemove.Type == "Teacher")
+            if(userToRemove.Type != "manager")
             {
                 var teacherAndCourses = _context.UserInCourse.Where(t => t.TeacherId == userToRemove.Id).ToList();
                 _context.UserInCourse.RemoveRange(teacherAndCourses);
-            }            
+            }
+            _context.Users.Remove(userToRemove);
             await _context.SaveChangesAsync();
             return userToRemove.Id;
         }
@@ -262,6 +263,16 @@ namespace WebCourse__server
             _context.Grades.Remove(gradeToRemove);
             await _context.SaveChangesAsync();
             return gradeToRemove.Id;
+        }
+
+        public async Task<List<User>> GetUsers(string type)
+        {
+            List<User> users;
+            if (type == "student" || type == "teacher")
+                users = await _context.Users.Where(t => t.Type == type).ToListAsync();
+            else
+                users = await _context.Users.ToListAsync();
+            return users;
         }
     }
 }

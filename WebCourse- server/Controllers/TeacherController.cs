@@ -40,11 +40,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("AddGradeForStudent")]
-        public async Task<ActionResult> AddGradeForStudent(int userId, int courseId, double grade, string discription)
+        public async Task<ActionResult> AddGradeForStudent(int userId, int courseId, double grade, string description)
         {
             try
             {
-                await _userRepo.AddGradeToStudent(userId, courseId,grade,discription);
+                await _userRepo.AddGradeToStudent(userId, courseId,grade, description);
                 return Ok();
             }
             catch (Exception ex)
@@ -54,11 +54,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("UpdateGradeForStudent")]
-        public async Task<ActionResult> UpdateGradeForStudent(int userId, int courseId, double grade, string discription)
+        public async Task<ActionResult> UpdateGradeForStudent(int userId, int courseId, double grade, string description)
         {
             try
             {
-                await _userRepo.UpdateGradeForStudent(userId, courseId, grade, discription);
+                await _userRepo.UpdateGradeForStudent(userId, courseId, grade, description);
                 return Ok();
             }
             catch (Exception ex)
@@ -68,11 +68,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpDelete("RemoveGradeForStudent")]
-        public async Task<ActionResult<int>> RemoveGradeForStudent(int userId, int courseId, string discription)
+        public async Task<ActionResult<int>> RemoveGradeForStudent(int userId, int courseId, string description)
         {
             try
             {
-                var removedCourseId = await _userRepo.RemoveGradeForStudent(userId, courseId, discription);
+                var removedCourseId = await _userRepo.RemoveGradeForStudent(userId, courseId, description);
                 return Ok(removedCourseId);
             }
             catch (Exception ex)
