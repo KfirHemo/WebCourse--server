@@ -12,11 +12,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("AddUser")]
-        public async Task<ActionResult<int>> AddUser(string username, string password,string type)
+        public async Task<ActionResult<int>> AddUser([FromBody] User user)
         {
             try
             {
-                var userId = await _userRepo.AddUser(username, password,type);
+                var userId = await _userRepo.AddUser(user.Name, user.Password,user.Type);
                 return Ok(userId);
             }
             catch (Exception ex)

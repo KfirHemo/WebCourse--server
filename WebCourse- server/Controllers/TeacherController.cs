@@ -21,7 +21,7 @@ namespace WebCourse__server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Ok(new List<Course>());
             }
         }
 
@@ -40,11 +40,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("AddGradeForStudent")]
-        public async Task<ActionResult> AddGradeForStudent(int userId, int courseId, double grade, string description)
+        public async Task<ActionResult> AddGradeForStudent([FromBody] Grade gradeDto)
         {
             try
             {
-                await _userRepo.AddGradeToStudent(userId, courseId,grade, description);
+                await _userRepo.AddGradeToStudent(gradeDto.UserId, gradeDto.CourseId, gradeDto.Score, gradeDto.Description);
                 return Ok();
             }
             catch (Exception ex)

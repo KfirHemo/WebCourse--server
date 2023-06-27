@@ -227,7 +227,7 @@ namespace WebCourse__server
             var gradeNew = new Grade()
             {
                 CourseId = course.Id,
-                Discription = discription,
+                Description = discription,
                 Score = grade,
                 UserId = student.Id
             };
@@ -242,7 +242,7 @@ namespace WebCourse__server
                 throw new Exception($"User {student.Name} is not a student!");
             var course = await GetCourse(courseId);
             var gradeToUpdate = await _context.Grades.FirstOrDefaultAsync(g => 
-            g.UserId == student.Id && g.CourseId == course.Id && g.Discription == discription);
+            g.UserId == student.Id && g.CourseId == course.Id && g.Description == discription);
             if (gradeToUpdate == null)
                 throw new Exception($"UpdateGradeForStudent: grade not found for student {student.Name}");
             gradeToUpdate.Score = grade;
@@ -257,7 +257,7 @@ namespace WebCourse__server
                 throw new Exception($"User {student.Name} is not a student!");
             var course = await GetCourse(courseId);
             var gradeToRemove = await _context.Grades.FirstOrDefaultAsync(g =>
-            g.UserId == student.Id && g.CourseId == course.Id && g.Discription == discription);
+            g.UserId == student.Id && g.CourseId == course.Id && g.Description == discription);
             if (gradeToRemove == null)
                 throw new Exception($"RemoveGradeForStudent: grade not found for student {student.Name}");
             _context.Grades.Remove(gradeToRemove);
