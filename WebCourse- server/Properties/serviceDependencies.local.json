@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "mssql1": {
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/webcourse-serverdbserver/databases/WebCourse-server_db1",
+      "type": "mssql.azure",
+      "connectionId": "DataBaseGradesPro",
+      "dynamicId": null
+    }
+  }
+}

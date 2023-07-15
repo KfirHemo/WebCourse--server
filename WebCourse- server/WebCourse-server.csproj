@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>WebCourse__server</RootNamespace>
+    <UserSecretsId>5036fba4-c2d6-4bd9-b861-2e5fff542e9e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

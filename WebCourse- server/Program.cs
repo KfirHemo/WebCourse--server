@@ -9,7 +9,7 @@ using WebCourse__server.RepositorysAndEF.Entity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(opt => opt.AllowEmptyInputInBodyModelBinding = true);
-var connectionString = "Data Source=SARIX270\\SQLEXPRESS;Initial Catalog=WebProjectDB;Integrated Security=True; Encrypt=True; TrustServerCertificate=True; ";
+var connectionString = "Data Source=webcourse-serverdbserver.database.windows.net;Initial Catalog=WebCourse-server_db;User ID=Kfir;Password=Aa123456;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False ";
 builder.Services.AddDbContext<ServerContext>(opt => opt.UseSqlServer(connectionString));
 builder.Services.AddScoped<UserRepo>();
 builder.Services.AddEndpointsApiExplorer();
