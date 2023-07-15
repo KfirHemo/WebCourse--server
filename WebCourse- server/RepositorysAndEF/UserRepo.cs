@@ -133,7 +133,7 @@ namespace WebCourse__server
         public async Task<List<Course>> GetCoursesOfUser(int userId)
         {
             var teacher = await GetUser(userId);
-            if (teacher.Type != null && (teacher.Type.ToLower() == "Manager") )
+            if (teacher.Type != null && (teacher.Type.ToLower() == "manager") )
                 throw new Exception("This user is not teacher or student!");
             var teacherCourses = _context.UserInCourse.Where(a => a.TeacherId == teacher.Id).ToList();
             List<int> coursesIdList = new List<int>();
@@ -217,6 +217,24 @@ namespace WebCourse__server
             }
             return studentsList;
         }
+
+        public async Task<List<User>> GetStudentsInCourseForManager(int courseId)
+        {
+            var course = await GetCourse(courseId);
+            var studentsInCourse = await _context.UserInCourse.Where(c => c.CourseId == course.Id).ToListAsync();
+            var studentsFromDb = _context.Users.Where(s => s.Type != null && s.Type.ToLower() == "student");
+            var studentsList = new List<User>();
+            for (int i = 0; i < studentsInCourse.Count; i++)
+            {
+                var tempStudent = await studentsFromDb.FirstOrDefaultAsync(s => s.Id == studentsInCourse[i].TeacherId);
+                if (tempStudent != null)
+                    studentsList.Add(tempStudent);
+            }
+            return studentsList;
+        }
+
+
+
 
         public async Task AddGradeToStudent(int userId, int courseId, double grade, string discription)
         {

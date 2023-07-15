@@ -16,6 +16,9 @@ namespace WebCourse__server.Controllers
         {
             try
             {
+                var user = await _userRepo.GetUser(userId);
+                if (user.Type.ToLower() == "manager")
+                    return Ok(await _userRepo.GetCourses());
                 var coursrs = await _userRepo.GetCoursesOfUser(userId);
                 return Ok(coursrs);
             }
@@ -30,7 +33,12 @@ namespace WebCourse__server.Controllers
         {
             try
             {
-                var students = await _userRepo.GetStudentsInCourseForTeacher(userId, courseId);
+                var user = await _userRepo.GetUser(userId);
+
+
+                var students = user.Type.ToLower() == "manager"? await _userRepo.GetStudentsInCourseForManager(courseId) :
+                    await _userRepo.GetStudentsInCourseForTeacher(userId, courseId);
+
                 return Ok(students);
             }
             catch (Exception ex)
@@ -54,11 +62,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("UpdateGradeForStudent")]
-        public async Task<ActionResult> UpdateGradeForStudent(int userId, int courseId, double grade, string description)
+        public async Task<ActionResult> UpdateGradeForStudent([FromBody] Grade gradeDto)
         {
             try
             {
-                await _userRepo.UpdateGradeForStudent(userId, courseId, grade, description);
+                await _userRepo.UpdateGradeForStudent(gradeDto.UserId, gradeDto.CourseId, gradeDto.Score, gradeDto.Description);
                 return Ok();
             }
             catch (Exception ex)

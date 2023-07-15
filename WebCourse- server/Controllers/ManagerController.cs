@@ -68,11 +68,11 @@ namespace WebCourse__server.Controllers
         }
 
         [HttpPost("AddCourseForTeacher")]
-        public async Task<ActionResult> AddCourseForTeacher(int userId, int courseId)
+        public async Task<ActionResult> AddCourseForTeacher([FromBody] UserInCourse course)
         {
             try
             {
-                await _userRepo.AddUserToCourse(userId, courseId);
+                await _userRepo.AddUserToCourse(course.TeacherId, course.CourseId);
                 return Ok();
             }
             catch (Exception ex)
